@@ -13,7 +13,6 @@ MCU = atmega32u4
 #     reflect the processor speed set externally so that the code can use accurate
 #     software delays.
 F_CPU = 16000000
-
 #
 # LUFA specific
 #
