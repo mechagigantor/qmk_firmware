@@ -1,26 +1,7 @@
 #include QMK_KEYBOARD_H
 
-
-extern keymap_config_t keymap_config;
-
-#define _QWERTY 0
-#define _LOWER 3
-#define _RAISE 4
-#define _STEER 11
-#define _ADJUST 16
-
-enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  ADJUST,
-  STEER
-};
-
-// Tap Dance Declarations
-enum {
-  SFT_CAP = 0
-};
+// Tab on tap or Function layer 1 on hold
+#define FN_TAB LT(3, KC_TAB)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -36,11 +17,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |Adjust| Ctrl | Alt  | GUI  |Lower |Space |Space |Raise |   (  |   )  |   [  |  ]   |
  * `-----------------------------------------------------------------------------------'
  */
-[_QWERTY] = LAYOUT( \
+[0] = LAYOUT( \
   KC_ESC,        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
- MT(KC_TAB, STEER), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
-  TD(SFT_CAP),   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SFT_T(KC_ENT), \
-  ADJUST,        KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LPRN, KC_RPRN, KC_LBRC,   KC_RBRC \
+  FN_TAB, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
+  KC_LSFT,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT, \
+  MO(4),        KC_LCTL, KC_LALT, KC_LGUI, MO(1),   KC_SPC,  KC_SPC,  MO(2),   KC_LPRN, KC_RPRN, KC_LBRC,   KC_RBRC \
 ),
 
 /* Lower
@@ -54,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[_LOWER] = LAYOUT( \
+[1] = LAYOUT( \
   KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC, \
   KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
   _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______, KC_END,  KC_HOME, _______, \
@@ -72,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      | MB1  | MB2  | MB3  | MB4  |
  * `-----------------------------------------------------------------------------------'
  */
-[_RAISE] = LAYOUT( \
+[2] = LAYOUT( \
   KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
   KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS, \
   _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______, KC_PGDN, KC_PGUP, _______, \
@@ -90,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      | Space |Space|      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_STEER] = LAYOUT( \
+[3] = LAYOUT( \
   _______, _______,   _______, _______, _______, _______, _______, _______,  KC_UP, _______,    _______,  KC_DEL, \
   _______, LGUI(KC_A), _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, \
   _______, LGUI(KC_Z), LGUI(KC_X), LGUI(KC_C), LGUI(KC_V), _______, _______, _______, _______, _______, _______, _______, \
@@ -108,7 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      |      |      |      | CADel|
  * `-----------------------------------------------------------------------------------'
  */
-[_ADJUST] =  LAYOUT( \
+[4] =  LAYOUT( \
   _______, RESET,   _______, _______, AG_NORM, AG_SWAP, _______, _______, _______, _______,  _______,  KC_DEL, \
   _______, RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI, _______, RGB_M_P, RGB_M_B, RGB_M_R, RGB_M_SW, _______, _______, \
   _______, RGB_TOG, RGB_HUD, RGB_SAD, RGB_VAD, _______, RGB_M_G, RGB_M_X, RGB_M_K, RGB_M_SN, _______, _______, \
@@ -116,60 +97,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 )
 
 };
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [SFT_CAP] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS)
-};
-
-void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
-  default_layer_set(default_layer);
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case QWERTY:
-      if (record->event.pressed) {
-        persistent_default_layer_set(1UL<<_QWERTY);
-      }
-      return false;
-      break;
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case ADJUST:
-      if (record->event.pressed) {
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
-      }
-      return false;
-      break;
-    case STEER:
-      if (record->event.pressed) {
-        layer_on(_STEER);
-      } else {
-        layer_off(_STEER);
-      }
-      return false;
-      break;
-  }
-  return true;
-}
